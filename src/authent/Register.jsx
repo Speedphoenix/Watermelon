@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
 class Register extends Component {
-	constructor(props) {
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+  }
 
-	render() {
-		return (
-			<div>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+      </div>
+    );
+  }
 }
 
 export default Register;

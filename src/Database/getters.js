@@ -1,17 +1,16 @@
-import users from './Database/users.js';
+import users from './users';
 
 function getUsers() {
-	return users;
+  return users;
 }
 
 function getById(where, id) {
-	for (el of where.length) {
-		if (el.id === id)
-			return el;
-	}
-	return null;
+  for (let i = 0; i < where.length; i += 1) {
+    if (where[i].id === id) return where[i];
+  }
+  return null;
 }
 
 function getUser(id) {
-	return getById(users);
+  return getById(users, id);
 }

@@ -1,4 +1,4 @@
-export default [
+let wallets = [
   {
     id: 1,
     balance: 300, // integer !! if you have 15€, balance = 1500,
@@ -10,3 +10,4 @@ export default [
     userid: 2,
   },
 ];
+export default wallets;

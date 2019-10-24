@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { withRouter, Route, Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import './App.css';
 import LogIn from './authent/LogIn';
-import LogOut from './authent/LogOut';
+import logOut from './authent/logOut';
 import Register from './authent/Register';
 import AddCard from './opers/AddCard';
 import Deposit from './opers/Deposit';
@@ -20,26 +20,37 @@ class App extends Component {
     this.state = {
       userId: localStorage.getItem('userId'),
     };
+    this.logUserOut = this.logUserOut.bind(this);
+  }
+
+  logUserOut() {
+    logOut();
+    this.setState({});
+  }
+
+  componentDidUpdate() {
+    const uid = localStorage.getItem('userId');
+    if (uid !== this.state.userId) this.setState({ userId: uid });
   }
 
   getLinks() {
     const { userId } = this.state;
     if (userId === null) {
       return [
-        <li><Link to="/">Home</Link></li>,
-        <li><Link to="/login">Login</Link></li>,
-        <li><Link to="/register">Register</Link></li>,
+        <li key={1}><Link to="/">Home</Link></li>,
+        <li key={2}><Link to="/login">Login</Link></li>,
+        <li key={3}><Link to="/register">Register</Link></li>,
       ];
     }
     return [
-      <li><Link to="/">Home</Link></li>,
-      <li><Link to="/addcard">Add a Card</Link></li>,
-      <li><Link to="/deposit">Deposit</Link></li>,
-      <li><Link to="/account">My Account</Link></li>,
-      <li><Link to="/transfer">Make a Transfer</Link></li>,
-      <li><Link to="/withdraw">Withdraw Money</Link></li>,
-      <li><Link to="/logout">Logout</Link></li>,
-      <li><Link to="/updatecard">Update a Card (this link will be eventually removed)</Link></li>,
+      <li key={1}><Link to="/">Home</Link></li>,
+      <li key={2}><Link to="/addcard">Add a Card</Link></li>,
+      <li key={3}><Link to="/deposit">Deposit</Link></li>,
+      <li key={4}><Link to="/account">My Account</Link></li>,
+      <li key={5}><Link to="/transfer">Make a Transfer</Link></li>,
+      <li key={6}><Link to="/withdraw">Withdraw Money</Link></li>,
+      <li key={7}><a href="#" onClick={this.logUserOut}>Logout</a></li>,
+      <li key={8}><Link to="/updatecard">Update a Card (this link will be eventually removed)</Link></li>,
     ];
   }
 
@@ -47,38 +58,38 @@ class App extends Component {
     const { userId } = this.state;
     if (userId === null) {
       return [
-        <Route exact path="/" component={() => (<h1>Welcome to Watermelon!</h1>)} />,
-        <Route exact path="/login" component={() => (<LogIn />)} />,
-        <Route exact path="/register" component={() => (<Register />)} />,
+        <Route key={1} exact path="/" component={() => (<h1>Welcome to Watermelon!</h1>)} />,
+        <Route
+          key={2}
+          exact
+          path="/login"
+          component={() => <LogIn onDone={() => this.forceUpdate} />}
+        />,
+        <Route key={3} exact path="/register" component={Register} />,
       ];
     }
     return [
-      <Route exact path="/" component={() => (<MyAccount />)} />,
-      <Route exact path="/addcard" component={() => (<AddCard />)} />,
-      <Route exact path="/deposit" component={() => (<Deposit />)} />,
-      <Route exact path="/myaccount" component={() => (<MyAccount />)} />,
-      <Route exact path="/transfer" component={() => (<Transfer />)} />,
-      <Route exact path="/updatecard" component={() => (<UpdateCard />)} />,
-      <Route exact path="/withdraw" component={() => (<Withdraw />)} />,
-      <Route exact path="/logout" component={() => (<LogOut />)} />,
+      <Route key={1} exact path="/" component={MyAccount} />,
+      <Route key={2} exact path="/addcard" component={AddCard} />,
+      <Route key={3} exact path="/deposit" component={Deposit} />,
+      <Route key={4} exact path="/myaccount" component={MyAccount} />,
+      <Route key={5} exact path="/transfer" component={Transfer} />,
+      <Route key={6} exact path="/updatecard" component={UpdateCard} />,
+      <Route key={7} exact path="/withdraw" component={Withdraw} />,
     ];
   }
 
   render() {
     return (
       <div className="App">
-        <BrowserRouter>
-          <div>
-            <ul className="navbar">
-              {this.getLinks()}
-            </ul>
+        <ul className="navbar">
+          {this.getLinks()}
+        </ul>
 
-            {this.getRoutes()}
-          </div>
-        </BrowserRouter>
+        {this.getRoutes()}
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

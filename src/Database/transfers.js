@@ -1,4 +1,4 @@
-export default [
+let transfers = [
   {
     id: 1,
     debited_wallet_id: 1,
@@ -6,3 +6,4 @@ export default [
     amount: 100, // integer !! 15€: amount = 1500
   },
 ];
+export default transfers;

@@ -1,4 +1,4 @@
-export default [
+let users = [
   {
     id: 1,
     first_name: 'John',
@@ -16,3 +16,4 @@ export default [
     is_admin: true,
   },
 ];
+export default users;

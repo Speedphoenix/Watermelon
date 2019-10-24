@@ -1,4 +1,4 @@
-export default [
+let cards = [
   {
     id: 1,
     last_4: '4965', // string, 4 last card numbers
@@ -7,3 +7,4 @@ export default [
     userid: 1,
   },
 ];
+export default cards;

@@ -86,5 +86,8 @@ yarn-error.log*
 # vim swap files
 *.swp
 
+# vi config file created by npm?
+.exrc
+
 # vscode files
 .vscode/*

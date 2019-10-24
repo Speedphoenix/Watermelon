@@ -18,7 +18,7 @@ class LogIn extends Component {
     const uid = userMatches(this.state.email, this.state.password);
     if (uid === false) {
       this.setState({
-        message: <h3 className="error-msg">Email or Password doesn&#39t match</h3>,
+        message: <h3 className="error-msg">Email or Password do not match</h3>,
       });
     } else {
       this.props.history.push('/');

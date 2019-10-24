@@ -50,7 +50,7 @@ class App extends Component {
       <li key={5}><Link to="/transfer">Make a Transfer</Link></li>,
       <li key={6}><Link to="/withdraw">Withdraw Money</Link></li>,
       <li key={7}><a href="#" onClick={this.logUserOut}>Logout</a></li>,
-      <li key={8}><Link to="/updatecard">Update a Card (this link will be eventually removed)</Link></li>,
+      <li key={8}><Link to="/updatecard/:cardId">Update a Card (this link will be eventually removed)</Link></li>,
     ];
   }
 
@@ -74,7 +74,7 @@ class App extends Component {
       <Route key={3} exact path="/deposit" component={Deposit} />,
       <Route key={4} exact path="/myaccount" component={MyAccount} />,
       <Route key={5} exact path="/transfer" component={Transfer} />,
-      <Route key={6} exact path="/updatecard" component={UpdateCard} />,
+      <Route key={6} exact path="/updatecard/:cardId" component={UpdateCard} />,
       <Route key={7} exact path="/withdraw" component={Withdraw} />,
     ];
   }

@@ -11,6 +11,57 @@ const cardBrands = [
   'jcb',
 ];
 
+function editingCardForm(handleSubmit, initCard, handleChange, handleCancel) {
+  return (
+    <form onSubmit={handleSubmit}>
+      <h4>Note that the format on these is not checked</h4>
+      <h5>Are we allowed to use a datepicker?</h5>
+      <table className="center">
+        <tbody>
+          <tr key={'edit' + initCard.id + '1'}>
+            <td key={'edit' + initCard.id + '11'}>Last 4:</td>
+            <td key={'edit' + initCard.id + '12'}>
+              <input
+                type="text"
+                name="last_4"
+                value={initCard.last_4}
+                onChange={handleChange}
+              />
+            </td>
+          </tr>
+          <tr key={'edit' + initCard.id + '2'}>
+            <td key={'edit' + initCard.id + '21'}>Brand:</td>
+            <td key={'edit' + initCard.id + '22'}>
+              <select
+                name="brand"
+                value={initCard.brand}
+                onChange={handleChange}
+              >
+                {cardBrands.map((val, index) => (
+                  <option value={val}>{val}</option>
+                ))}
+              </select>
+            </td>
+          </tr>
+          <tr key={'edit' + initCard.id + '3'}>
+            <td key={'edit' + initCard.id + '31'}>Expires at:</td>
+            <td key={'edit' + initCard.id + '32'}>
+              <input
+                type="text"
+                name="expired_at"
+                value={initCard.expired_at}
+                onChange={handleChange}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit" value="Save" />
+      <button type="button" onClick={handleCancel}>Cancel</button>
+    </form>
+  );
+}
+
 class UpdateCard extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +70,7 @@ class UpdateCard extends Component {
     this.editingCardDisp = this.editingCardDisp.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.cancelEditing = this.cancelEditing.bind(this);
 
     this.state = {
       card: this.props.card,
@@ -52,6 +104,12 @@ class UpdateCard extends Component {
     });
   }
 
+  cancelEditing() {
+    this.setState({
+      isEditing: false,
+    });
+  }
+
   cardDisp() {
     if (!this.state.isEditing) {
       return (
@@ -73,53 +131,8 @@ class UpdateCard extends Component {
   }
 
   editingCardDisp() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <h4>Note that the format on these is not checked</h4>
-        <h5>Are we allowed to use a datepicker?</h5>
-        <table className="center">
-          <tbody>
-            <tr key="1">
-              <td key="11">Last 4:</td>
-              <td key="12">
-                <input
-                  type="text"
-                  name="last_4"
-                  value={this.state.bufferCard.last_4}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-            <tr key="1">
-              <td key="11">Brand:</td>
-              <td key="12">
-                <select
-                  name="brand"
-                  value={this.state.bufferCard.brand}
-                  onChange={this.handleChange}
-                >
-                  {cardBrands.map((val, index) => (
-                    <option value={val}>{val}</option>
-                  ))}
-                </select>
-              </td>
-            </tr>
-            <tr key="1">
-              <td key="11">Expires at:</td>
-              <td key="12">
-                <input
-                  type="text"
-                  name="expired_at"
-                  value={this.state.bufferCard.expired_at}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <input type="submit" value="Save" />
-      </form>
-    );
+    return editingCardForm(this.handleSubmit,
+      this.state.bufferCard, this.handleChange, this.cancelEditing);
   }
 
   render() {
@@ -138,3 +151,4 @@ UpdateCard.propTypes = {
 };
 
 export default UpdateCard;
+export { editingCardForm };

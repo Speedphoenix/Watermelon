@@ -4,7 +4,6 @@ import './App.css';
 import LogIn from './authent/LogIn';
 import logOut from './authent/logOut';
 import Register from './authent/Register';
-import AddCard from './opers/AddCard';
 import Deposit from './opers/Deposit';
 import MyAccount from './opers/MyAccount';
 import Transfer from './opers/Transfer';
@@ -38,7 +37,6 @@ class App extends Component {
     }
     return [
       <li key={1}><Link to="/">Home</Link></li>,
-      <li key={2}><Link to="/addcard">Add a Card</Link></li>,
       <li key={3}><Link to="/deposit">Deposit</Link></li>,
       <li key={4}><Link to="/account">My Account</Link></li>,
       <li key={5}><Link to="/transfer">Make a Transfer</Link></li>,
@@ -52,7 +50,6 @@ class App extends Component {
     if (userId !== null) {
       return [
         <Route key={1} exact path={['/', '/account']} component={MyAccount} />,
-        <Route key={2} exact path="/addcard" component={AddCard} />,
         <Route key={3} exact path="/deposit" component={Deposit} />,
         <Route key={5} exact path="/transfer" component={Transfer} />,
         <Route key={7} exact path="/withdraw" component={Withdraw} />,

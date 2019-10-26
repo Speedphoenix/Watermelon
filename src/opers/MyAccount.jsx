@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { updateInDb, getFromDb, getFromDbWhere } from '../Database/dbops';
 import { allTableRows } from './displayers';
 import UpdateCard from './UpdateCard';
+import AddCard from './AddCard';
 
 function dispUser(user, balance) {
   return (
@@ -34,6 +35,8 @@ class MyAccount extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.dispEditingUser = this.dispEditingUser.bind(this);
     this.cardsDisplay = this.cardsDisplay.bind(this);
+    this.cardAdder = this.cardAdder.bind(this);
+    this.newCardDone = this.newCardDone.bind(this);
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
@@ -46,7 +49,31 @@ class MyAccount extends Component {
       cards: myCards,
       isEditing: false,
       bufferUser: {},
+      isAddingCard: false,
     };
+  }
+
+  startEditing() {
+    this.setState({
+      bufferUser: Object.assign({}, this.state.user),
+      isEditing: true,
+    });
+  }
+
+  getUserDisplay() {
+    if (!this.state.isEditing) {
+      return (
+        <div>
+          {dispUser(this.state.user, this.state.wallet.balance)}
+          <button type="button" onClick={() => this.startEditing()}>Edit</button>
+        </div>
+      );
+    }
+    return (
+      <div>
+        {this.dispEditingUser()}
+      </div>
+    );
   }
 
   dispEditingUser() {
@@ -116,29 +143,6 @@ class MyAccount extends Component {
     );
   }
 
-  startEditing() {
-    this.setState({
-      bufferUser: Object.assign({}, this.state.user),
-      isEditing: true,
-    });
-  }
-
-  getUserDisplay() {
-    if (!this.state.isEditing) {
-      return (
-        <div>
-          {dispUser(this.state.user, this.state.wallet.balance)}
-          <button type="button" onClick={() => this.startEditing()}>Edit</button>
-        </div>
-      );
-    }
-    return (
-      <div>
-        {this.dispEditingUser()}
-      </div>
-    );
-  }
-
   handleSubmit(event) {
     // TODO make sure there are no duplicate emails
     event.preventDefault();
@@ -164,6 +168,29 @@ class MyAccount extends Component {
     ));
   }
 
+  cardAdder() {
+    if (this.state.isAddingCard) {
+      return (
+        <div>
+          <h3>Adding a new card</h3>
+          <AddCard userId={this.state.user.id} onDone={this.newCardDone} />
+        </div>
+      );
+    }
+    return (
+      <button type="button" onClick={() => this.setState({ isAddingCard: true })}>
+        Add a new card
+      </button>
+    );
+  }
+
+  newCardDone() {
+    this.setState({
+      cards: getFromDbWhere('cards', (ele) => (ele.userid === this.state.user.id)),
+      isAddingCard: false,
+    });
+  }
+
   render() {
     return (
       <div>
@@ -175,6 +202,8 @@ class MyAccount extends Component {
         <ul className="cards-list">
           {this.cardsDisplay()}
         </ul>
+        <br />
+        {this.cardAdder()}
       </div>
     );
   }

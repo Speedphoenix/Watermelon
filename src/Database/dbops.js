@@ -16,7 +16,6 @@ const nameToList = {
 };
 
 function addElement(where, what) {
-  // maybe check if the id doesn't exist yet?
   where.push(what);
 }
 
@@ -39,7 +38,10 @@ function getAllFromDb(where) {
 
 function addToDb(where, what) {
   const askedList = nameToList[where];
+  if (getById(askedList, what.id) === false)
+    return false;
   addElement(askedList, what);
+  return true;
 }
 
 // returns false if the user doesn't match, or id of the user
@@ -75,6 +77,15 @@ function getFromDbWhere(wherename, condition) {
   return rep;
 }
 
+function getAvailableId(wherename) {
+  const whereList = nameToList[wherename];
+  let maxId = 1;
+  for (let i = 0; i < whereList.length; i += 1) {
+    if (whereList[i].id >= maxId) maxId = whereList[i].id + 1;
+  }
+  return maxId;
+}
+
 export {
   getFromDb,
   getAllFromDb,
@@ -82,4 +93,5 @@ export {
   userMatches,
   updateInDb,
   getFromDbWhere,
+  getAvailableId,
 };

@@ -8,6 +8,7 @@ import Deposit from './opers/Deposit';
 import MyAccount from './opers/MyAccount';
 import Transfer from './opers/Transfer';
 import Withdraw from './opers/Withdraw';
+import logo from './logo.png';
 
 // localStorage.setItem('userId', unInt);
 // localStorage.getItem('userId');
@@ -30,18 +31,20 @@ class App extends Component {
     const { userId } = this.state;
     if (userId === null) {
       return [
-        <li key={1}><Link to="/">Home</Link></li>,
-        <li key={2}><Link to="/login">Login</Link></li>,
-        <li key={3}><Link to="/register">Register</Link></li>,
+        <li key="navbarlogo"><Link to="/"><img className="navbar-logo" src={logo} alt="logo" /></Link></li>,
+        <li key={"navbar1"}><Link to="/">Home</Link></li>,
+        <li key={"navbar2"}><Link to="/login">Login</Link></li>,
+        <li key={"navbar3"}><Link to="/register">Register</Link></li>,
       ];
     }
     return [
-      <li key={1}><Link to="/">Home</Link></li>,
-      <li key={3}><Link to="/deposit">Deposit</Link></li>,
-      <li key={4}><Link to="/account">My Account</Link></li>,
-      <li key={5}><Link to="/transfer">Make a Transfer</Link></li>,
-      <li key={6}><Link to="/withdraw">Withdraw Money</Link></li>,
-      <li key={7}><a href="#" onClick={this.logUserOut}>Logout</a></li>,
+      <li key="navbarlogo"><Link to="/"><img className="navbar-logo" src={logo} alt="logo" /></Link></li>,
+      <li key={"navbar1"}><Link to="/">Home</Link></li>,
+      <li key={"navbar3"}><Link to="/deposit">Deposit</Link></li>,
+      <li key={"navbar4"}><Link to="/account">My Account</Link></li>,
+      <li key={"navbar5"}><Link to="/transfer">Make a Transfer</Link></li>,
+      <li key={"navbar6"}><Link to="/withdraw">Withdraw Money</Link></li>,
+      <li key={"navbar7"}><a href="#" onClick={this.logUserOut}>Logout</a></li>,
     ];
   }
 
@@ -49,21 +52,21 @@ class App extends Component {
     const { userId } = this.state;
     if (userId !== null) {
       return [
-        <Route key={1} exact path={['/', '/account']} component={MyAccount} />,
-        <Route key={3} exact path="/deposit" component={Deposit} />,
-        <Route key={5} exact path="/transfer" component={Transfer} />,
-        <Route key={7} exact path="/withdraw" component={Withdraw} />,
+        <Route key={"route1"} exact path={['/', '/account']} component={MyAccount} />,
+        <Route key={"route3"} exact path="/deposit" component={Deposit} />,
+        <Route key={"route5"} exact path="/transfer" component={Transfer} />,
+        <Route key={"route7"} exact path="/withdraw" component={Withdraw} />,
       ];
     }
     return [
-      <Route key={1} exact path="/" component={() => (<h1>Welcome to Watermelon!</h1>)} />,
+      <Route key={"route1"} exact path="/" component={() => (<h1>Welcome to Watermelon!</h1>)} />,
       <Route
-        key={2}
+        key={"route2"}
         exact
         path="/login"
         component={() => <LogIn onDone={() => this.forceUpdate} />}
       />,
-      <Route key={3} exact path="/register" component={Register} />,
+      <Route key={"route3"} exact path="/register" component={Register} />,
     ];
   }
 

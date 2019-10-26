@@ -35,6 +35,10 @@ table.center {
   margin-right: auto;
 }
 
+.navbar-logo {
+  height: 1em;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

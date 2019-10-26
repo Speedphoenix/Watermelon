@@ -57,9 +57,9 @@ function updateInDb(wherename, id, newone) {
   const where = nameToList[wherename];
   for (let i = 0; i < where.length; i += 1) {
     if (where[i].id === id) {
-      //because Object.assign did not work. Probably needed to import react.
+      // because Object.assign did not work. Probably needed to import react.
       const keys = Object.keys(newone);
-      for (let j = 0; j < keys.length; j++) {
+      for (let j = 0; j < keys.length; j += 1) {
         where[i][keys[j]] = newone[keys[j]];
       }
     }
@@ -68,7 +68,7 @@ function updateInDb(wherename, id, newone) {
 
 function getFromDbWhere(wherename, condition) {
   const whereList = nameToList[wherename];
-  let rep = [];
+  const rep = [];
   for (let i = 0; i < whereList.length; i += 1) {
     if (condition(whereList[i])) rep.push(whereList[i]);
   }

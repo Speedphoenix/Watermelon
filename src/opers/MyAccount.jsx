@@ -9,14 +9,14 @@ function dispUser(user, balance) {
     <table className="center">
       <tbody>
         { allTableRows(user, (key, val) => {
-            if (key === 'is_admin')
-              return ["Is admin?", (val ? 'Yes' : 'No')];
-            return false;
-          }) }
+          if (key === 'is_admin') return ['Is admin?', (val ? 'Yes' : 'No')];
+          return false;
+        }) }
         <tr key="20">
           <td key="201">Balance</td>
           <td key="202">
-            {Number(balance / 100).toFixed(2)} €
+            {Number(balance / 100).toFixed(2)}
+            €
           </td>
         </tr>
       </tbody>
@@ -35,37 +35,18 @@ class MyAccount extends Component {
     this.dispEditingUser = this.dispEditingUser.bind(this);
     this.cardsDisplay = this.cardsDisplay.bind(this);
 
-    const userId = parseInt(localStorage.getItem('userId'));
+    const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
-    const wallet = getFromDbWhere('wallets', (ele) => (ele.userid == userId))[0];
-    const myCards = getFromDbWhere('cards', (ele) => (ele.userid == userId));
+    const wallet = getFromDbWhere('wallets', (ele) => (ele.userid === userId))[0];
+    const myCards = getFromDbWhere('cards', (ele) => (ele.userid === userId));
 
     this.state = {
-      user, 
+      user,
       wallet,
       cards: myCards,
       isEditing: false,
       bufferUser: {},
     };
-  }
-
-  handleChange(event) {
-    const target = event.target;
-    this.setState({
-      bufferUser: Object.assign(this.state.bufferUser, {
-        [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
-      }),
-    });
-  }
-
-  handleSubmit(event) {
-    // TODO make sure there are no duplicate emails
-    event.preventDefault();
-    updateInDb('users', this.state.user.id, this.state.bufferUser);
-    this.setState({
-      isEditing: false,
-      user: getFromDb('users', this.state.user.id),
-    });
   }
 
   dispEditingUser() {
@@ -143,21 +124,38 @@ class MyAccount extends Component {
   }
 
   getUserDisplay() {
-    if (!this.state.isEditing)
-    {
+    if (!this.state.isEditing) {
       return (
         <div>
           {dispUser(this.state.user, this.state.wallet.balance)}
-          <button onClick={() => this.startEditing()}>Edit</button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          {this.dispEditingUser()}
+          <button type="button" onClick={() => this.startEditing()}>Edit</button>
         </div>
       );
     }
+    return (
+      <div>
+        {this.dispEditingUser()}
+      </div>
+    );
+  }
+
+  handleSubmit(event) {
+    // TODO make sure there are no duplicate emails
+    event.preventDefault();
+    updateInDb('users', this.state.user.id, this.state.bufferUser);
+    this.setState({
+      isEditing: false,
+      user: getFromDb('users', this.state.user.id),
+    });
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    this.setState({
+      bufferUser: Object.assign(this.state.bufferUser, {
+        [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
+      }),
+    });
   }
 
   cardsDisplay() {

@@ -1,4 +1,4 @@
-let wallets = [
+const wallets = [
   {
     id: 1,
     balance: 300, // integer !! if you have 15€, balance = 1500,

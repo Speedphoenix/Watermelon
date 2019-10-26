@@ -1,4 +1,4 @@
-let transfers = [
+const transfers = [
   {
     id: 1,
     debited_wallet_id: 1,

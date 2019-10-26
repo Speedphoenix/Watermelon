@@ -4,11 +4,11 @@ import { getFromDb, updateInDb } from '../Database/dbops';
 import { allTableRows } from './displayers';
 
 const cardBrands = [
-  "visa",
-  "master_card",
-  "american_express",
-  "union_pay",
-  "jcb",
+  'visa',
+  'master_card',
+  'american_express',
+  'union_pay',
+  'jcb',
 ];
 
 class UpdateCard extends Component {
@@ -20,7 +20,6 @@ class UpdateCard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
-    const cardId = this.props.cardId;
     this.state = {
       card: this.props.card,
       isEditing: false,
@@ -54,25 +53,23 @@ class UpdateCard extends Component {
   }
 
   cardDisp() {
-    if (!this.state.isEditing)
-    {
+    if (!this.state.isEditing) {
       return (
         <div>
           <table className="center">
             <tbody>
-             {allTableRows(this.state.card, () => false)}
+              {allTableRows(this.state.card, () => false)}
             </tbody>
           </table>
-          <button onClick={() => this.startEditing()}>Edit</button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          {this.editingCardDisp()}
+          <button type="button" onClick={() => this.startEditing()}>Edit</button>
         </div>
       );
     }
+    return (
+      <div>
+        {this.editingCardDisp()}
+      </div>
+    );
   }
 
   editingCardDisp() {
@@ -136,6 +133,7 @@ class UpdateCard extends Component {
 
 
 UpdateCard.propTypes = {
+  // need to replace this with the way it should look...
   card: PropTypes.object.isRequired,
 };
 

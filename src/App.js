@@ -8,7 +8,6 @@ import AddCard from './opers/AddCard';
 import Deposit from './opers/Deposit';
 import MyAccount from './opers/MyAccount';
 import Transfer from './opers/Transfer';
-import UpdateCard from './opers/UpdateCard';
 import Withdraw from './opers/Withdraw';
 
 // localStorage.setItem('userId', unInt);
@@ -21,11 +20,6 @@ class App extends Component {
       userId: localStorage.getItem('userId'),
     };
     this.logUserOut = this.logUserOut.bind(this);
-  }
-
-  logUserOut() {
-    logOut();
-    this.setState({});
   }
 
   componentDidUpdate() {
@@ -76,13 +70,21 @@ class App extends Component {
     ];
   }
 
+  logUserOut() {
+    logOut();
+    this.setState({});
+  }
+
   render() {
     return (
       <div className="App">
         <ul className="navbar">
           {this.getLinks()}
         </ul>
-        <h3>Note that refreshing will undo any changes made as this app is not connected to any database or API</h3>
+        <h3>
+          Note that refreshing will undo any changes made
+          as this app is not connected to any database or API
+        </h3>
 
         <div className="main">
           {this.getRoutes()}

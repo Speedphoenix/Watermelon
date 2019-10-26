@@ -5,10 +5,10 @@ function allTableRows(what, specificCall) {
     const specificValue = specificCall(key, what[key]);
     return (
       <tr key={index}>
-        <td key={index.toString() + "1"}>
+        <td key={index.toString() + '1'}>
           {specificValue !== false ? specificValue[0] : key}
         </td>
-        <td key={index.toString() + "2"}>
+        <td key={index.toString() + '2'}>
           {specificValue !== false ? specificValue[1] : what[key]}
         </td>
       </tr>

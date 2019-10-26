@@ -1,4 +1,4 @@
-let cards = [
+const cards = [
   {
     id: 1,
     last_4: '4965', // string, 4 last card numbers

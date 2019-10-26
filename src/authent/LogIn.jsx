@@ -15,14 +15,15 @@ class LogIn extends Component {
   }
 
   handleSubmit(event) {
-    const uid = userMatches(this.state.email, this.state.password);
-    if (uid === false) {
+    event.preventDefault();
+    const user = userMatches(this.state.email, this.state.password);
+    if (user === false) {
       this.setState({
         message: <h3 className="error-msg">Email or Password do not match</h3>,
       });
     } else {
+      localStorage.setItem('userId', user.id);
       this.props.history.push('/');
-      localStorage.setItem('userId', uid);
       this.props.onDone();
     }
   }
@@ -30,23 +31,25 @@ class LogIn extends Component {
   render() {
     return (
       <div>
-        <input
-          type="text"
-          name="email"
-          onChange={this.handleChange}
-          value={this.state.email}
-          placeholder="email"
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          onChange={this.handleChange}
-          value={this.state.password}
-          placeholder="password"
-        />
-        <br />
-        <button onClick={this.handleSubmit}>Go!</button>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            name="email"
+            onChange={this.handleChange}
+            value={this.state.email}
+            placeholder="email"
+          />
+          <br />
+          <input
+            type="password"
+            name="password"
+            onChange={this.handleChange}
+            value={this.state.password}
+            placeholder="password"
+          />
+          <br />
+          <input type="submit" value="Go!" />
+        </form>
         {this.state.message}
       </div>
     );

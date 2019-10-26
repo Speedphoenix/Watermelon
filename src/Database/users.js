@@ -9,6 +9,14 @@ let users = [
   },
   {
     id: 2,
+    first_name: 'John',
+    last_name: 'Smith',
+    email: 'smith@example.com',
+    password: '1',
+    is_admin: true,
+  },
+  {
+    id: 3,
     first_name: 'Leonardo',
     last_name: 'Jeanteur',
     email: 'leonardo.jeanteur@edu.ece.fr',

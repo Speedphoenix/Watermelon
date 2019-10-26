@@ -1,46 +1,134 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getFromDb } from '../Database/dbops';
+import { getFromDb, updateInDb } from '../Database/dbops';
+import { allTableRows } from './displayers';
+
+const cardBrands = [
+  "visa",
+  "master_card",
+  "american_express",
+  "union_pay",
+  "jcb",
+];
 
 class UpdateCard extends Component {
   constructor(props) {
     super(props);
-    const cardId = this.props.match.params.cardId;
-    const card = getFromDb('cards', parseInt(cardId));
-    if (card === null) {
-      this.state = {
-        message: <h3 className="error-msg">This card does not exist</h3>,
-      };
+    this.startEditing = this.startEditing.bind(this);
+    this.cardDisp = this.cardDisp.bind(this);
+    this.editingCardDisp = this.editingCardDisp.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
+    const cardId = this.props.cardId;
+    this.state = {
+      card: this.props.card,
+      isEditing: false,
+      bufferCard: {},
+    };
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    this.setState({
+      bufferCard: Object.assign(this.state.bufferCard, {
+        [target.name]: target.value,
+      }),
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    updateInDb('cards', this.state.card.id, this.state.bufferCard);
+    this.setState({
+      isEditing: false,
+      card: getFromDb('cards', this.state.card.id),
+    });
+  }
+
+  startEditing() {
+    this.setState({
+      bufferCard: Object.assign({}, this.state.card),
+      isEditing: true,
+    });
+  }
+
+  cardDisp() {
+    if (!this.state.isEditing)
+    {
+      return (
+        <div>
+          <table className="center">
+            <tbody>
+             {allTableRows(this.state.card, () => false)}
+            </tbody>
+          </table>
+          <button onClick={() => this.startEditing()}>Edit</button>
+        </div>
+      );
     } else {
-      this.state = {
-        message: <h3>We'll made this editable later</h3>,
-        card,
-      };
+      return (
+        <div>
+          {this.editingCardDisp()}
+        </div>
+      );
     }
   }
 
-  cardDisp(card) {
-    let rep = [];
-    Object.keys(card).map((key, index) => {
-      rep.push(
-        <tr key={index}>
-          <td key={index.toString() + "1"}>{key}</td>
-          <td key={index.toString() + "2"}>{card[key]}</td>
-        </tr>
-      );
-    });
-    return rep;
+  editingCardDisp() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <h4>Note that the format on these is not checked</h4>
+        <h5>Are we allowed to use a datepicker?</h5>
+        <table className="center">
+          <tbody>
+            <tr key="1">
+              <td key="11">Last 4:</td>
+              <td key="12">
+                <input
+                  type="text"
+                  name="last_4"
+                  value={this.state.bufferCard.last_4}
+                  onChange={this.handleChange}
+                />
+              </td>
+            </tr>
+            <tr key="1">
+              <td key="11">Brand:</td>
+              <td key="12">
+                <select
+                  name="brand"
+                  value={this.state.bufferCard.brand}
+                  onChange={this.handleChange}
+                >
+                  {cardBrands.map((val, index) => (
+                    <option value={val}>{val}</option>
+                  ))}
+                </select>
+              </td>
+            </tr>
+            <tr key="1">
+              <td key="11">Expires at:</td>
+              <td key="12">
+                <input
+                  type="text"
+                  name="expired_at"
+                  value={this.state.bufferCard.expired_at}
+                  onChange={this.handleChange}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <input type="submit" value="Save" />
+      </form>
+    );
   }
 
   render() {
     return (
       <div>
-        <table>
-          <tbody>
-            {this.cardDisp(this.state.card)}
-          </tbody>
-        </table>
-        {this.state.message}
+        {this.cardDisp()}
       </div>
     );
   }
@@ -48,12 +136,7 @@ class UpdateCard extends Component {
 
 
 UpdateCard.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      // this is actually a numeric string
-      cardId: PropTypes.string.isRequired,
-    }),
-  }),
+  card: PropTypes.object.isRequired,
 };
 
 export default UpdateCard;

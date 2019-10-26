@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { updateInDb, getFromDb, getAllFromDb } from '../Database/dbops';
+import { updateInDb, getFromDb, getFromDbWhere } from '../Database/dbops';
+import { allTableRows } from './displayers';
+import UpdateCard from './UpdateCard';
 
-function dispUser(user) {
+function dispUser(user, balance) {
   return (
-    <table>
+    <table className="center">
       <tbody>
-        <tr key="1">
-          <td key="11">First name:</td>
-          <td key="12">{user.first_name}</td>
-        </tr>
-        <tr key="2">
-          <td key="21">Last name:</td>
-          <td key="22">{user.last_name}</td>
-        </tr>
-        <tr key="3">
-          <td key="31">email:</td>
-          <td key="32">{user.email}</td>
-        </tr>
-        <tr key="4">
-          <td key="41">Is admin:</td>
-          <td key="42">{user.is_admin ? 'Yes' : 'No'}</td>
-        </tr>
-        <tr key="5">
-          <td key="51">Password (visible, of course):</td>
-          <td key="52">{user.password}</td>
+        { allTableRows(user, (key, val) => {
+            if (key === 'is_admin')
+              return ["Is admin?", (val ? 'Yes' : 'No')];
+            return false;
+          }) }
+        <tr key="20">
+          <td key="201">Balance</td>
+          <td key="202">
+            {Number(balance / 100).toFixed(2)} €
+          </td>
         </tr>
       </tbody>
     </table>
@@ -36,23 +29,24 @@ function dispUser(user) {
 class MyAccount extends Component {
   constructor(props) {
     super(props);
-    this.getDisplay = this.getDisplay.bind(this);
+    this.getUserDisplay = this.getUserDisplay.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.dispEditingUser = this.dispEditingUser.bind(this);
+    this.cardsDisplay = this.cardsDisplay.bind(this);
 
-    const userId = localStorage.getItem('userId');
+    const userId = parseInt(localStorage.getItem('userId'));
+    const user = getFromDb('users', userId);
+    const wallet = getFromDbWhere('wallets', (ele) => (ele.userid == userId))[0];
+    const myCards = getFromDbWhere('cards', (ele) => (ele.userid == userId));
+
     this.state = {
-      user: getFromDb('users', parseInt(userId)),
+      user, 
+      wallet,
+      cards: myCards,
       isEditing: false,
       bufferUser: {},
     };
-
-    this.timerID = setInterval(() => {
-      const newuser = getFromDb('users', this.state.user.id);
-      //if (this.state.user.first_name !== newuser.first_name)
-//        console.log(getAllFromDb('users'));
-    }, 1000);
   }
 
   handleChange(event) {
@@ -77,7 +71,7 @@ class MyAccount extends Component {
   dispEditingUser() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <table>
+        <table className="center">
           <tbody>
             <tr key="1">
               <td key="11">First name:</td>
@@ -148,12 +142,12 @@ class MyAccount extends Component {
     });
   }
 
-  getDisplay() {
+  getUserDisplay() {
     if (!this.state.isEditing)
     {
       return (
         <div>
-          {dispUser(this.state.user)}
+          {dispUser(this.state.user, this.state.wallet.balance)}
           <button onClick={() => this.startEditing()}>Edit</button>
         </div>
       );
@@ -166,10 +160,23 @@ class MyAccount extends Component {
     }
   }
 
+  cardsDisplay() {
+    return this.state.cards.map((card, index) => (
+      <li><UpdateCard card={card} /></li>
+    ));
+  }
+
   render() {
     return (
       <div>
-        {this.getDisplay()}
+        <div>
+          {this.getUserDisplay()}
+        </div>
+        <hr />
+        <h4>My cards</h4>
+        <ul className="cards-list">
+          {this.cardsDisplay()}
+        </ul>
       </div>
     );
   }

@@ -22,27 +22,27 @@ class UpdateCard extends Component {
 
   handleChange(event) {
     const target = event.target;
-    this.setState({
-      bufferCard: Object.assign(this.state.bufferCard, {
+    this.setState((prevState) => ({
+      bufferCard: Object.assign(prevState.bufferCard, {
         [target.name]: target.value,
       }),
-    });
+    }));
   }
 
   handleSubmit(event) {
     event.preventDefault();
     updateInDb('cards', this.state.card.id, this.state.bufferCard);
-    this.setState({
+    this.setState((prevState) => ({
       isEditing: false,
-      card: getFromDb('cards', this.state.card.id),
-    });
+      card: getFromDb('cards', prevState.card.id),
+    }));
   }
 
   startEditing() {
-    this.setState({
-      bufferCard: Object.assign({}, this.state.card),
+    this.setState((prevState) => ({
+      bufferCard: { ...(prevState.card) },
       isEditing: true,
-    });
+    }));
   }
 
   cancelEditing() {

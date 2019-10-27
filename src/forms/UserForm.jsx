@@ -1,23 +1,44 @@
 import React, { Component } from 'react';
+import { emailIsAvailable } from '../Database/dbops';
 
+// this should have been made so that the parents wouldn't need handleChange...
 class UserForm extends Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
     this.verify = this.verify.bind(this);
 
     this.state = {
       message: '',
       confirmedPass: '',
+      email: this.props.bufferUser.email,
     };
   }
 
   verify(event) {
     event.preventDefault();
-    if (this.state.confirmedPass === this.props.bufferUser.password) {
-      this.props.handleSubmit(event);
-    } else {
+    if (this.state.confirmedPass !== this.props.bufferUser.password) {
       this.setState({ message: <h4 className="error-msg">Passwords do not match</h4> });
+    } else if (!emailIsAvailable(this.state.email, this.props.bufferUser.id)) {
+      this.setState({
+        message: (
+          <h4 className="error-msg">
+            A user with this password already exists
+          </h4>),
+      });
+    } else {
+      this.props.handleSubmit(event);
     }
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    this.setState({
+      [target.name]: target.value,
+      message: '',
+    });
+    // should have made this component in a way that this would not be needed..
+    if (target.name !== 'confirmedPass') this.props.handleChange(event);
   }
 
   render() {
@@ -32,7 +53,7 @@ class UserForm extends Component {
                   type="text"
                   name="first_name"
                   value={this.props.bufferUser.first_name}
-                  onChange={this.props.handleChange}
+                  onChange={this.handleChange}
                   required
                 />
               </td>
@@ -44,7 +65,7 @@ class UserForm extends Component {
                   type="text"
                   name="last_name"
                   value={this.props.bufferUser.last_name}
-                  onChange={this.props.handleChange}
+                  onChange={this.handleChange}
                   required
                 />
               </td>
@@ -56,7 +77,7 @@ class UserForm extends Component {
                   type="email"
                   name="email"
                   value={this.props.bufferUser.email}
-                  onChange={this.props.handleChange}
+                  onChange={this.handleChange}
                   required
                 />
               </td>
@@ -68,7 +89,7 @@ class UserForm extends Component {
                   type="checkbox"
                   name="is_admin"
                   checked={this.props.bufferUser.is_admin}
-                  onChange={this.props.handleChange}
+                  onChange={this.handleChange}
                 />
               </td>
             </tr>
@@ -79,10 +100,7 @@ class UserForm extends Component {
                   type="password"
                   name="password"
                   value={this.props.bufferUser.password}
-                  onChange={(event) => {
-                    this.setState({ message: '' });
-                    this.props.handleChange(event);
-                  }}
+                  onChange={this.handleChange}
                   required
                 />
               </td>
@@ -92,14 +110,9 @@ class UserForm extends Component {
               <td key={'editu' + this.props.bufferUser.id + '62'}>
                 <input
                   type="password"
-                  name="confirmPassword"
+                  name="confirmedPass"
                   value={this.state.confirmedPass}
-                  onChange={(event) => {
-                    this.setState({
-                      confirmedPass: event.target.value,
-                      message: '',
-                    });
-                  }}
+                  onChange={this.handleChange}
                   required
                 />
               </td>

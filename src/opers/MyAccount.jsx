@@ -12,6 +12,7 @@ function dispUser(user, balance) {
       <tbody>
         { allTableRows(user, (key, val) => {
           if (key === 'is_admin') return ['Is admin?', (val ? 'Yes' : 'No')];
+          if (key === 'password') return ['Password (visible, of course)', <code>{val}</code>];
           return false;
         }) }
         <tr key="20">
@@ -71,10 +72,10 @@ class MyAccount extends Component {
   }
 
   startEditing() {
-    this.setState({
-      bufferUser: Object.assign({}, this.state.user),
+    this.setState((prevState) => ({
+      bufferUser: { ...(prevState.user) },
       isEditing: true,
-    });
+    }));
   }
 
   dispEditingUser() {
@@ -92,19 +93,19 @@ class MyAccount extends Component {
     // TODO make sure there are no duplicate emails
     event.preventDefault();
     updateInDb('users', this.state.user.id, this.state.bufferUser);
-    this.setState({
+    this.setState((prevState) => ({
       isEditing: false,
-      user: getFromDb('users', this.state.user.id),
-    });
+      user: getFromDb('users', prevState.user.id),
+    }));
   }
 
   handleChange(event) {
     const target = event.target;
-    this.setState({
-      bufferUser: Object.assign(this.state.bufferUser, {
+    this.setState((prevState) => ({
+      bufferUser: Object.assign(prevState.bufferUser, {
         [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
       }),
-    });
+    }));
   }
 
   cardsDisplay() {
@@ -130,10 +131,10 @@ class MyAccount extends Component {
   }
 
   newCardDone() {
-    this.setState({
-      cards: getFromDbWhere('cards', (ele) => (ele.userid === this.state.user.id)),
+    this.setState((prevState) => ({
+      cards: getFromDbWhere('cards', (ele) => (ele.userid === prevState.user.id)),
       isAddingCard: false,
-    });
+    }));
   }
 
   render() {

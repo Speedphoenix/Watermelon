@@ -21,11 +21,11 @@ class AddCard extends Component {
 
   handleChange(event) {
     const target = event.target;
-    this.setState({
-      card: Object.assign(this.state.card, {
+    this.setState((prevState) => ({
+      card: Object.assign(prevState.card, {
         [target.name]: target.value,
       }),
-    });
+    }));
   }
 
   handleSubmit(event) {

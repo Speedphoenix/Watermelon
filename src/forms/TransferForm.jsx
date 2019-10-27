@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail, getWalletIdWhereUserId
 } from '../Database/dbops';
+
 class TransferForm extends Component {
 
   constructor(props) {
@@ -54,7 +55,7 @@ class TransferForm extends Component {
     event.preventDefault();
     this.setState({
     message:(
-      <h4 className="error-msg">      
+      <h4 className="error-msg">
       </h4>),
     });
 
@@ -102,7 +103,7 @@ class TransferForm extends Component {
           </tr>
           </tbody>
         </table>
-          <input type="submit" value="Save" />
+          <input type="submit" value="Transfer" />
       </form>
         {this.state.message}
       </div>

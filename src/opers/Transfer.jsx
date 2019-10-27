@@ -3,8 +3,6 @@ import {
   addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail
 } from '../Database/dbops';
 import TransferForm from '../forms/TransferForm';
-import wallets from '../Database/wallets';
-import transfers from '../Database/transfers';
 
 export const dispUserBalance = (user, balance) => (
   <table className="center">

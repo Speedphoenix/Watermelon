@@ -40,6 +40,7 @@ class Transfer extends Component {
       transfer: {
         amount: 0,
         emailcredited: '',
+
       },
     };
   }
@@ -64,6 +65,7 @@ class Transfer extends Component {
     return (
       <div>
         <TransferForm
+          userid={this.state.user.id}
           walletBalance={this.state.wallet.balance}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}

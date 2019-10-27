@@ -20,9 +20,28 @@ class TransferForm extends Component {
     //// TODO: add a mesage -> are you sure and handle the cancel or the submit
     if( !(getUserByEmail(this.props.bufferTransfer.emailcredited)) )
     {
+      if( getUserByEmail(this.props.bufferTransfer.emailcredited) == this.props.userid)
+      {
+        this.setState({
+          message:(
+            <h4 className="error-msg">
+            You can't credit yourself !
+          </h4>),
+        });
+      }
+      else{
+        this.setState({
+          message:(
+            <h4 className="error-msg">
+              The user you want to credit doesn't exist !
+          </h4>),
+        });
+      }
 
     }
+    else {
       this.props.handleSubmit(event);
+    }
 
   }
 

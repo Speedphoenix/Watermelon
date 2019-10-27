@@ -99,4 +99,5 @@ export {
   updateInDb,
   getFromDbWhere,
   getAvailableId,
+  getUserByEmail,
 };

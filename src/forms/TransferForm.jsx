@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-
+import {
+  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail
+} from '../Database/dbops';
 class TransferForm extends Component {
 
   constructor(props) {
@@ -30,6 +32,7 @@ class TransferForm extends Component {
 
   render(){
     return(
+      <div>
       <form onSubmit={this.verify}>
         <table className="center">
           <tbody>
@@ -64,7 +67,8 @@ class TransferForm extends Component {
         </table>
           <input type="submit" value="Save" />
       </form>
-      {this.state.message}
+        {this.state.message}
+      </div>
     );
   }
 

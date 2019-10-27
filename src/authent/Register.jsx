@@ -36,11 +36,11 @@ class Register extends Component {
 
   handleChange(event) {
     const target = event.target;
-    this.setState({
-      newUser: Object.assign(this.state.newUser, {
+    this.setState((prevState) => ({
+      newUser: Object.assign(prevState.newUser, {
         [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
       }),
-    });
+    }));
   }
 
   render() {

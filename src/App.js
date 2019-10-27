@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     let userId = localStorage.getItem('userId');
-    if (getFromDb('users', parseInt(userId), 10) === null) {
+    if (getFromDb('users', parseInt(userId, 10)) === null) {
       userId = null;
       localStorage.removeItem('userId');
     }

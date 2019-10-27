@@ -91,6 +91,15 @@ function getAvailableId(wherename) {
   return maxId;
 }
 
+function emailIsAvailable(email, toIgnore) {
+  for (let i = 0; i < users.length; i += 1) {
+    if (users[i].id !== toIgnore && users[i].email === email) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export {
   getFromDb,
   getAllFromDb,
@@ -99,5 +108,6 @@ export {
   updateInDb,
   getFromDbWhere,
   getAvailableId,
+  emailIsAvailable,
   getUserByEmail,
 };

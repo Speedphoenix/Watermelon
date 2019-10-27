@@ -28,7 +28,9 @@ class Transfer extends Component {
   constructor(props){
     super(props);
 
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.makingTransfer = this.makingTransfer.bind(this);
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
@@ -39,8 +41,8 @@ class Transfer extends Component {
       user,
       wallet,
       hasInputedAmount : false,
-      tranfer: {
-        amount : '',
+      transfer: {
+        amount : 0,
         emailcredited:'',
       }
     };
@@ -58,8 +60,8 @@ class Transfer extends Component {
   handleChange(event) {
     const target = event.target;
     this.setState({
-      newUser: Object.assign(this.state.newUser, {
-        [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
+      transfer: Object.assign(this.state.transfer, {
+        [target.name]: target.value,
       }),
     });
   }

@@ -5,7 +5,8 @@ class TransferForm extends Component {
   constructor(props) {
     super(props);
     this.verify = this.verify.bind(this);
-
+    console.log(this.props.bufferTransfer);
+    console.log(this.props);
     this.state = {
       message: '',
     };

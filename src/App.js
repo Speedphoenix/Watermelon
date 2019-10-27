@@ -23,7 +23,7 @@ class App extends Component {
       localStorage.removeItem('userId');
     }
     this.state = {
-      userId: userId,
+      userId,
     };
     this.logUserOut = this.logUserOut.bind(this);
   }

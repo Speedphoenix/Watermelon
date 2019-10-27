@@ -1,31 +1,27 @@
 import React, { Component } from 'react';
-import { getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere } from '../Database/dbops';
+import {
+  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere,
+} from '../Database/dbops';
 import TransferForm from '../forms/TransferForm';
 
 
-export const  dispUserBalance = (user, balance) => {
-  return (
-    <table className="center">
-      <tbody>
-        <tr key="20">
-          <td key="201">Balance : </td>
-          <td key="202">
-            {Number(balance / 100).toFixed(2)}
+export const dispUserBalance = (user, balance) => (
+  <table className="center">
+    <tbody>
+      <tr key="20">
+        <td key="201">Balance : </td>
+        <td key="202">
+          {Number(balance / 100).toFixed(2)}
             €
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  );
-}
-
-
-
-
+        </td>
+      </tr>
+    </tbody>
+  </table>
+);
 
 
 class Transfer extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
@@ -40,21 +36,18 @@ class Transfer extends Component {
     this.state = {
       user,
       wallet,
-      hasInputedAmount : false,
+      hasInputedAmount: false,
       transfer: {
-        amount : 0,
-        emailcredited:'',
-      }
+        amount: 0,
+        emailcredited: '',
+      },
     };
   }
 
 
-
-
-  handleSubmit(event){
-      event.preventDefault();
-//      updateInDb('wallet', this.state.wallet.id, this.state.wallet.balance)
-
+  handleSubmit(event) {
+    event.preventDefault();
+    //      updateInDb('wallet', this.state.wallet.id, this.state.wallet.balance)
   }
 
   handleChange(event) {
@@ -67,8 +60,8 @@ class Transfer extends Component {
   }
 
 
-  makingTransfer(){
-    return(
+  makingTransfer() {
+    return (
       <div>
         <TransferForm
           walletBalance={this.state.wallet.balance}
@@ -81,12 +74,11 @@ class Transfer extends Component {
   }
 
 
-
   render() {
     return (
       <div>
-      {dispUserBalance(this.state.user, this.state.wallet.balance)}
-      {this.makingTransfer()}
+        {dispUserBalance(this.state.user, this.state.wallet.balance)}
+        {this.makingTransfer()}
       </div>
     );
   }

@@ -26,6 +26,12 @@ function getById(where, id) {
   return null;
 }
 
+function getUserByEmail(email) {
+  for (let i = 0; i < users.length; i += 1) {
+    if (users[i].email === email) return users[i].id;
+  }
+  return null;
+}
 // these give you what you want as you give the string of the table
 function getFromDb(where, id) {
   const askedList = nameToList[where];

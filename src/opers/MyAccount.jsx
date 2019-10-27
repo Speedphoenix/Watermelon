@@ -72,7 +72,7 @@ class MyAccount extends Component {
 
   startEditing() {
     this.setState({
-      bufferUser: Object.assign({}, this.state.user),
+      bufferUser: { ...this.state.user },
       isEditing: true,
     });
   }

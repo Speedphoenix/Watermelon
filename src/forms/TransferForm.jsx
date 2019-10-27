@@ -16,7 +16,10 @@ class TransferForm extends Component {
     event.preventDefault();
 
     //// TODO: add a mesage -> are you sure and handle the cancel or the submit
+    if( !(getUserByEmail(this.props.bufferTransfer.emailcredited)) )
+    {
 
+    }
       this.props.handleSubmit(event);
 
   }
@@ -61,7 +64,7 @@ class TransferForm extends Component {
         </table>
           <input type="submit" value="Save" />
       </form>
-
+      {this.state.message}
     );
   }
 

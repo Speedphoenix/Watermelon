@@ -40,7 +40,7 @@ class UpdateCard extends Component {
 
   startEditing() {
     this.setState({
-      bufferCard: Object.assign({}, this.state.card),
+      bufferCard: { ...this.state.card },
       isEditing: true,
     });
   }

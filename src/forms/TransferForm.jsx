@@ -1,39 +1,70 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-function TransferForm(props){
-  return(
-    <form onSubmit={props.handleSubmit}>
+class TransferForm extends Component {
 
-          <table className="center">
-            <tbody>
-              <tr  >
-                <td  >Amount: </td>
-                <td  >
-                  <input
-                    type="number"
-                    name="moneyAmount"
-                    step="0.01"
-                    min='0'
-                    max={props.walletBalance/100}
-                  />
-                </td>
-              </tr>
-              <tr  >
-                <td  >Send to:</td>
-                <td  >
-                  <input
-                    type="email"
-                    name="emailSendTo"
+  constructor(props) {
+    super(props);
+    this.verify = this.verify.bind(this);
 
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    this.state = {
+      message: '',
+    };
+  }
+
+  verify(event){
+    event.preventDefault();
+
+    //// TODO: add a mesage -> are you sure and handle the cancel or the submit
+
+      this.props.handleSubmit(event);
+
+  }
+
+
+
+
+
+  render(){
+    return(
+      <form onSubmit={this.verify}>
+        <table className="center">
+          <tbody>
+          <tr  >
+            <td  >Amount: </td>
+              <td  >
+              <input
+              type="number"
+              name="amount"
+              step="0.01"
+              min='0'
+              max={this.props.walletBalance/100}
+              value={this.props.bufferTransfer.amount}
+              onChange={this.props.handleChange}
+              required
+              />
+            </td>
+          </tr>
+          <tr  >
+            <td  >Send to:</td>
+            <td  >
+              <input
+              type="email"
+              name="emailcredited"
+              value={this.props.bufferTransfer.emailcredited}
+              onChange={this.props.handleChange}
+              required
+              />
+            </td>
+          </tr>
+          </tbody>
+        </table>
           <input type="submit" value="Save" />
-        </form>
+      </form>
 
-  );
+    );
+  }
+
 }
+
 
 export default TransferForm;

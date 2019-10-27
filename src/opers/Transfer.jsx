@@ -37,11 +37,12 @@ class Transfer extends Component {
 
     this.state = {
       user,
-      wallet : this.props.wallet,
-      isMakingTransfer : false,
+      wallet,
       hasInputedAmount : false,
-      isSure : false,
-
+      tranfer: {
+        amount : '',
+        emailcredited:'',
+      }
     };
   }
 
@@ -54,12 +55,24 @@ class Transfer extends Component {
 
   }
 
+  handleChange(event) {
+    const target = event.target;
+    this.setState({
+      newUser: Object.assign(this.state.newUser, {
+        [target.name]: (target.type === 'checkbox' ? target.checked : target.value),
+      }),
+    });
+  }
+
+
   makingTransfer(){
     return(
       <div>
         <TransferForm
           walletBalance={this.state.wallet.balance}
           handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          bufferTransfer={this.state.transfer}
         />
       </div>
     );

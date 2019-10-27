@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere,
+  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail
 } from '../Database/dbops';
 import TransferForm from '../forms/TransferForm';
-
+import wallets from '../Database/wallets';
+import transfers from '../Database/transfers';
 
 export const dispUserBalance = (user, balance) => (
   <table className="center">
@@ -26,7 +27,7 @@ class Transfer extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.makingTransfer = this.makingTransfer.bind(this);
+    this.transfering = this.transfering.bind(this);
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
@@ -37,50 +38,57 @@ class Transfer extends Component {
       user,
       wallet,
       hasInputedAmount: false,
-      transfer: {
+      transferData: {
         amount: 0,
         emailcredited: '',
-
+      },
+      transfer:{
+        id: getAvailableId('transfers'),
+        debited_wallet_id: userId,
+        credited_wallet_id: userId,
+        amount: 0,
       },
     };
   }
 
+  transfering(){
+    addToBalance(this.state.transfer.credited_wallet_id, this.state.transfer.amount);
+    addToBalance(this.state.transfer.debited_wallet_id, (- this.state.transfer.amount) );
+    addToDb('transfers', this.state.transfer);
+  }
 
   handleSubmit(event) {
     event.preventDefault();
-    //      updateInDb('wallet', this.state.wallet.id, this.state.wallet.balance)
+    this.state.transfer.amount = this.state.transferData.amount*100;
+    this.state.transfer.debited_wallet_id = this.state.wallet.id;
+    this.state.transfer.credited_wallet_id = getWalletIdWhereUserId(getUserByEmail(this.state.transferData.emailcredited));
+    this.transfering();
   }
 
   handleChange(event) {
     const target = event.target;
     this.setState({
-      transfer: Object.assign(this.state.transfer, {
+      transferData: Object.assign(this.state.transferData, {
         [target.name]: target.value,
       }),
     });
   }
 
 
-  makingTransfer() {
-    return (
-      <div>
-        <TransferForm
-          userid={this.state.user.id}
-          walletBalance={this.state.wallet.balance}
-          handleSubmit={this.handleSubmit}
-          handleChange={this.handleChange}
-          bufferTransfer={this.state.transfer}
-        />
-      </div>
-    );
-  }
+
 
 
   render() {
     return (
       <div>
         {dispUserBalance(this.state.user, this.state.wallet.balance)}
-        {this.makingTransfer()}
+        <TransferForm
+          userid={this.state.user.id}
+          walletBalance={this.state.wallet.balance}
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          bufferTransfer={this.state.transferData}
+        />
       </div>
     );
   }

@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {
-  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail
+  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail, getWalletIdWhereUserId
 } from '../Database/dbops';
 class TransferForm extends Component {
 
   constructor(props) {
     super(props);
     this.verify = this.verify.bind(this);
-    console.log(this.props.bufferTransfer);
-    console.log(this.props);
     this.state = {
       message: '',
     };
@@ -20,6 +18,14 @@ class TransferForm extends Component {
     //// TODO: add a mesage -> are you sure and handle the cancel or the submit
     if( !(getUserByEmail(this.props.bufferTransfer.emailcredited)) )
     {
+        this.setState({
+          message:(
+            <h4 className="error-msg">
+              The user you want to credit doesn't exist !
+          </h4>),
+        });
+    }
+    else {
       if( getUserByEmail(this.props.bufferTransfer.emailcredited) == this.props.userid)
       {
         this.setState({
@@ -30,18 +36,29 @@ class TransferForm extends Component {
         });
       }
       else{
+
         this.setState({
-          message:(
-            <h4 className="error-msg">
-              The user you want to credit doesn't exist !
+        message:(
+          <h4 className="error-msg">
+            Money transfered !
           </h4>),
         });
+        this.props.handleSubmit(event);
       }
 
     }
-    else {
-      this.props.handleSubmit(event);
-    }
+
+  }
+
+  handleChange(event){
+    event.preventDefault();
+    this.setState({
+    message:(
+      <h4 className="error-msg">      
+      </h4>),
+    });
+
+    this.props.handleChange(event);
 
   }
 

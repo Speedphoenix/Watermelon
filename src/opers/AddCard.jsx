@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { addToDb, getAvailableId } from '../Database/dbops';
-import { editingCardForm } from './UpdateCard';
-
-const exampleCard = {
-  id: 1,
-  last_4: '0000', // string, 4 last card numbers
-  brand: 'visa', // string, can be : visa, master_card, american_express, union_pay, jcb
-  expired_at: '1970-01-01',
-  userid: 1,
-};
+import CardForm from '../forms/CardForm';
 
 class AddCard extends Component {
   constructor(props) {
@@ -45,10 +37,12 @@ class AddCard extends Component {
   render() {
     return (
       <div>
-        {
-          editingCardForm(this.handleSubmit, this.state.card,
-            this.handleChange, () => this.props.onDone())
-        }
+        <CardForm
+          handleSubmit={this.handleSubmit}
+          initCard={this.state.card}
+          handleChange={this.handleChange}
+          handleCancel={() => this.props.onDone()}
+        />
       </div>
     );
   }

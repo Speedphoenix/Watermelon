@@ -31,6 +31,15 @@ class LogIn extends Component {
   render() {
     return (
       <div>
+        <p>
+          For testing purposes, you may use
+          <br />
+          email:&nbsp;
+          <code>example@example.com</code>
+          <br />
+          password:&nbsp;
+          <code>some pass</code>
+        </p>
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"

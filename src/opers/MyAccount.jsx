@@ -4,6 +4,7 @@ import { updateInDb, getFromDb, getFromDbWhere } from '../Database/dbops';
 import { allTableRows } from './displayers';
 import UpdateCard from './UpdateCard';
 import AddCard from './AddCard';
+import UserForm from '../forms/UserForm';
 
 function dispUser(user, balance) {
   return (
@@ -53,13 +54,6 @@ class MyAccount extends Component {
     };
   }
 
-  startEditing() {
-    this.setState({
-      bufferUser: Object.assign({}, this.state.user),
-      isEditing: true,
-    });
-  }
-
   getUserDisplay() {
     if (!this.state.isEditing) {
       return (
@@ -76,70 +70,21 @@ class MyAccount extends Component {
     );
   }
 
+  startEditing() {
+    this.setState({
+      bufferUser: Object.assign({}, this.state.user),
+      isEditing: true,
+    });
+  }
+
   dispEditingUser() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <table className="center">
-          <tbody>
-            <tr key="1">
-              <td key="11">First name:</td>
-              <td key="12">
-                <input
-                  type="text"
-                  name="first_name"
-                  value={this.state.bufferUser.first_name}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-            <tr key="2">
-              <td key="21">Last name:</td>
-              <td key="22">
-                <input
-                  type="text"
-                  name="last_name"
-                  value={this.state.bufferUser.last_name}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-            <tr key="3">
-              <td key="31">email:</td>
-              <td key="32">
-                <input
-                  type="text"
-                  name="email"
-                  value={this.state.bufferUser.email}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-            <tr key="4">
-              <td key="41">Is admin (you can change this, of course):</td>
-              <td key="42">
-                <input
-                  type="checkbox"
-                  name="is_admin"
-                  checked={this.state.bufferUser.is_admin}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-            <tr key="5">
-              <td key="51">Password:</td>
-              <td key="52">
-                <input
-                  type="password"
-                  name="password"
-                  value={this.state.bufferUser.password}
-                  onChange={this.handleChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <input type="submit" value="Save" />
-      </form>
+      <UserForm
+        handleSubmit={this.handleSubmit}
+        bufferUser={this.state.bufferUser}
+        handleChange={this.handleChange}
+        handleCancel={() => this.setState({ isEditing: false })}
+      />
     );
   }
 
@@ -163,7 +108,7 @@ class MyAccount extends Component {
   }
 
   cardsDisplay() {
-    return this.state.cards.map((card, index) => (
+    return this.state.cards.map((card) => (
       <li><UpdateCard card={card} /></li>
     ));
   }

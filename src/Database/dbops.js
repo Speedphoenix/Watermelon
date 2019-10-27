@@ -38,8 +38,7 @@ function getAllFromDb(where) {
 
 function addToDb(where, what) {
   const askedList = nameToList[where];
-  if (getById(askedList, what.id) === false)
-    return false;
+  if (getById(askedList, what.id) === false) return false;
   addElement(askedList, what);
   return true;
 }

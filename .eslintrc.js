@@ -21,5 +21,10 @@ module.exports = {
     'react',
   ],
   rules: {
+    'react/destructuring-assignment': 'off',
+    'prefer-template': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/prop-types': 'off',
+    'prefer-destructuring': 'off',
   },
 };

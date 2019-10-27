@@ -70,7 +70,8 @@ table.center {
   float: left;
 }
 
-.navbar li a {
+.navbar li a, .navbar li a:visited {
+  color: black;
   display: block;
   text-align: center;
   padding: 16px;

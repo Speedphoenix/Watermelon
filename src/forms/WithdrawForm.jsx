@@ -32,14 +32,14 @@ class WithdrawForm extends Component {
           <table className="center">
             <tbody>
               <tr>
-                <td> IBAN : </td>
+                <td> CARD : </td>
                 <td>
-                  <input
-                    type="text"
-                    name="iban"
-                    maxLength="26"
-                    required
-                  />
+                  <select name="card_select">
+                    card
+                    {this.props.cards.map((val) => (
+                      <option key={'edit' + val.id} value={val.id}>{val.last_4}</option>
+                    ))}
+                  </select>
                 </td>
               </tr>
               <tr>

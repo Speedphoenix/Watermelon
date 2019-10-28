@@ -36,7 +36,7 @@ class DepositForm extends Component {
                 <td> CARD : </td>
                 <td>
                   <select name="card_select">
-card
+                    card
                     {this.props.cards.map((val) => (
                       <option key={'edit' + val.id} value={val.id}>{val.last_4}</option>
                     ))}

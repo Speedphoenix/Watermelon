@@ -21,6 +21,10 @@ You will also see any lint errors in the console.
 
 Runs ESLint with the project's config. (Mostly airbnb but with some rules excluded)
 
+### `npm lintfix`
+
+Runs ESLint with the project's config like npm lint, but with the --fix parameter, thus fixing part of the errors encountered
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>

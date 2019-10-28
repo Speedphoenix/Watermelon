@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
-  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
+  addToBalance, addToDb, getFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId,
 } from '../Database/dbops';
 
 import WithdrawForm from '../forms/WithdrawForm';
@@ -42,7 +41,6 @@ class Withdraw extends Component {
       user,
       wallet,
       cards: myCards,
-      hasInputedAmount: false,
       bufferWithdraw: {
         RIB: '',
         amount: 0,

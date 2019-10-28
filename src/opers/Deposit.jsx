@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
-  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
-} from '../Database/dbops';
+  addToBalance, addToDb, getFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId} from '../Database/dbops';
 
-import DepositForm from '../forms/DepositForm.jsx';
+import DepositForm from '../forms/DepositForm';
 
 // // TODO: Blindage
 
@@ -41,7 +39,7 @@ class Deposit extends Component {
       user,
       wallet,
       cards: myCards,
-    //  hasInputedAmount: false,
+      //  hasInputedAmount: false,
       bufferDeposit: {
         RIB: '',
         amount: 0,

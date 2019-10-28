@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
+  addToBalance, addToDb, getFromDb, getFromDbWhere,
+  getAvailableId, getWalletIdWhereUserId, getUserByEmail,
 } from '../Database/dbops';
 import TransferForm from '../forms/TransferForm';
 
@@ -17,6 +18,7 @@ export const dispUserBalance = (user, balance) => (
     </tbody>
   </table>
 );
+
 
 // // TODO: Blindage
 
@@ -36,7 +38,6 @@ class Transfer extends Component {
     this.state = {
       user,
       wallet,
-      hasInputedAmount: false,
       transferData: {
         amount: 0,
         emailcredited: '',

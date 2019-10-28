@@ -36,12 +36,12 @@ class Deposit extends Component {
 
 
     this.state = {
+      userId,
       user,
       wallet,
       cards: myCards,
       //  hasInputedAmount: false,
       bufferDeposit: {
-        RIB: '',
         amount: 0,
       },
       payin: {
@@ -64,15 +64,33 @@ class Deposit extends Component {
   }
 
 
-  transfering() {
-    addToBalance(this.state.payin.wallet_id, this.state.payin.amount);
-    addToDb('payins', this.state.payin);
+  transfering(walletId, amount) {
+    addToBalance(walletId, amount);
+    addToDb('payins', { id: getAvailableId('payins'), wallet_id: walletId, amount });
+    this.setState({
+
+        wallet :getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
+        //  hasInputedAmount: false,
+        bufferDeposit: {
+          amount: 0,
+        },
+
+    });
   }
 
   handleSubmit(event) {
+
+
     event.preventDefault();
-    this.state.payin.amount = this.state.bufferDeposit.amount * 100;
-    this.transfering();
+    this.transfering(this.state.payin.wallet_id, (this.state.bufferDeposit.amount * 100));
+    console.log(this.state.bufferDeposit.amount * 100);
+    // this.setState((prevState) => ({
+    //     payin:{
+    //       ...prevState.bufferDeposit,
+    //     amount : prevState.bufferDeposit.amount * 100,
+    //   }
+    // }));
+    // console.log(this.state.payin);
   }
 
 

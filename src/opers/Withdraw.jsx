@@ -38,15 +38,14 @@ class Withdraw extends Component {
 
 
     this.state = {
+      userId,
       user,
       wallet,
       cards: myCards,
       bufferWithdraw: {
-        RIB: '',
         amount: 0,
       },
       payout: {
-        id: getAvailableId('payouts'),
         wallet_id: getWalletIdWhereUserId(user.id),
         amount: 0,
       },
@@ -65,24 +64,23 @@ class Withdraw extends Component {
   }
 
 
-  transfering() {
-    addToBalance(this.state.payout.wallet_id, (-this.state.payout.amount));
-    addToDb('payouts', this.state.payout);
+  transfering(walletId, amount) {
+    addToBalance(walletId, (-amount));
+    addToDb('payouts', {id:getAvailableId('payouts'),wallet_id: walletId, amount});
+    this.setState({
+
+        wallet :getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
+        //  hasInputedAmount: false,
+        bufferWithdraw: {
+          amount: 0,
+        },
+
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState((prevState) => ({
-      wallet: {
-        ...prevState.transfer,
-        balance: prevState.wallet.amount ,
-      },
-      payout:{
-        ...prevState.transfer,
-        amount : prevState.transferData.amount * 100,
-      }
-    }));
-    this.transfering();
+    this.transfering(this.state.payout.wallet_id, (this.state.bufferWithdraw.amount * 100));
   }
 
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail, getWalletIdWhereUserId,
-} from '../Database/dbops';
+import { getUserByEmail } from '../Database/dbops';
 
 
 // // TODO: Blindage
@@ -47,7 +45,7 @@ class TransferForm extends Component {
     event.preventDefault();
     this.setState({
       message: (
-        <h4 className="error-msg"> </h4> ),
+        <h4 className="error-msg"> </h4>),
     });
 
     this.props.handleChange(event);

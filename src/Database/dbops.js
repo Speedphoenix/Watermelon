@@ -17,7 +17,7 @@ const nameToList = {
 
 function addToBalance(walletId, amount) {
   for (let i = 0; i < wallets.length; i += 1) {
-    if (wallets[i].id === walletId) wallets[i].balance = wallets[i].balance + amount;
+    if (wallets[i].id === walletId) wallets[i].balance += amount;
   }
 }
 

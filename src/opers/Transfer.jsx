@@ -44,34 +44,36 @@ class Transfer extends Component {
         emailcredited: '',
       },
       transfer: {
-        debited_wallet_id: userId,
-        credited_wallet_id: userId,
+        debitedWalletId: userId,
+        creditedWalletId: userId,
       },
     };
   }
 
-  transfering(credited_wallet_id,debited_wallet_id, amount) {
-    addToBalance(credited_wallet_id, amount);
-    addToBalance(debited_wallet_id, (-amount));
-    addToDb('transfers', {id:getAvailableId('transfers'), debited_wallet_id, credited_wallet_id, amount});
+  transfering(creditedWalletId, debitedWalletId, amount) {
+    addToBalance(creditedWalletId, amount);
+    addToBalance(debitedWalletId, (-amount));
+    addToDb('transfers', {
+      id: getAvailableId('transfers'),
+      debitedWalletId,
+      creditedWalletId,
+      amount,
+    });
     this.setState({
-
-        wallet :getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
-        //  hasInputedAmount: false,
-        transfer: {
-          debited_wallet_id: this.state.userId,
-          credited_wallet_id: this.state.userId,
-          amount: 0,
-        },
-
+      wallet: getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
+      //  hasInputedAmount: false,
+      transfer: {
+        debitedWalletId: this.state.userId,
+        creditedWalletId: this.state.userId,
+        amount: 0,
+      },
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.transferData.amount);
-    this.transfering(getWalletIdWhereUserId(getUserByEmail( this.state.transferData.emailcredited)),
-     this.state.transfer.debited_wallet_id, this.state.transferData.amount*100);
+    this.transfering(getWalletIdWhereUserId(getUserByEmail(this.state.transferData.emailcredited)),
+      this.state.transfer.debitedWalletId, this.state.transferData.amount * 100);
   }
 
   handleChange(event) {

@@ -33,7 +33,7 @@ class Withdraw extends Component {
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
-    const wallet = getFromDbWhere('wallets', (wallet) => (wallet.userid === userId))[0];
+    const wallet = getFromDbWhere('wallets', (wallet2) => (wallet2.userid === userId))[0];
     const myCards = getFromDbWhere('cards', (cards) => (cards.userid === userId));
 
 
@@ -66,15 +66,17 @@ class Withdraw extends Component {
 
   transfering(walletId, amount) {
     addToBalance(walletId, (-amount));
-    addToDb('payouts', {id:getAvailableId('payouts'),wallet_id: walletId, amount});
+    addToDb('payouts', {
+      id: getAvailableId('payouts'),
+      wallet_id: walletId,
+      amount,
+    });
     this.setState({
-
-        wallet :getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
-        //  hasInputedAmount: false,
-        bufferWithdraw: {
-          amount: 0,
-        },
-
+      wallet: getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
+      //  hasInputedAmount: false,
+      bufferWithdraw: {
+        amount: 0,
+      },
     });
   }
 

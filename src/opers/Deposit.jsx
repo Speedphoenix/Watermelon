@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-  addToBalance, addToDb, getFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId} from '../Database/dbops';
+  addToBalance, addToDb, getFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId,
+} from '../Database/dbops';
 
 import DepositForm from '../forms/DepositForm';
 
@@ -31,7 +32,7 @@ class Deposit extends Component {
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const user = getFromDb('users', userId);
-    const wallet = getFromDbWhere('wallets', (wallet) => (wallet.userid === userId))[0];
+    const wallet = getFromDbWhere('wallets', (wallet2) => (wallet2.userid === userId))[0];
     const myCards = getFromDbWhere('cards', (cards) => (cards.userid === userId));
 
 
@@ -68,31 +69,18 @@ class Deposit extends Component {
     addToBalance(walletId, amount);
     addToDb('payins', { id: getAvailableId('payins'), wallet_id: walletId, amount });
     this.setState({
-
-        wallet :getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
-        //  hasInputedAmount: false,
-        bufferDeposit: {
-          amount: 0,
-        },
-
+      wallet: getFromDbWhere('wallets', (wallet) => (wallet.userid === this.state.userId))[0],
+      //  hasInputedAmount: false,
+      bufferDeposit: {
+        amount: 0,
+      },
     });
   }
 
   handleSubmit(event) {
-
-
     event.preventDefault();
     this.transfering(this.state.payin.wallet_id, (this.state.bufferDeposit.amount * 100));
-    console.log(this.state.bufferDeposit.amount * 100);
-    // this.setState((prevState) => ({
-    //     payin:{
-    //       ...prevState.bufferDeposit,
-    //     amount : prevState.bufferDeposit.amount * 100,
-    //   }
-    // }));
-    // console.log(this.state.payin);
   }
-
 
   render() {
     return (

@@ -4,7 +4,7 @@ import {
 } from '../Database/dbops';
 
 
-
+//// TODO: Blindage
 
 class WithdrawForm extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class WithdrawForm extends Component {
     this.setState({
           message:(
             <h4 className="error-msg">
-            Deposit made
+            Withdraw made
           </h4>),
     });
     this.props.handleSubmit(event);
@@ -35,24 +35,26 @@ class WithdrawForm extends Component {
           <table className="center">
             <tbody>
               <tr>
-                <td> CARD : </td>
+                <td> IBAN : </td>
                 <td>
-                  <select  name="card_select" >card
-                    {this.props.cards.map((val) => (
-                      <option key={'edit'+val.id} value={val.id}>{val.last_4}</option>
-                    ))}
-                  </select>
+                  <input
+                    type="text"
+                    name="iban"
+                    maxLength="26"
+                    required
+                  />
                 </td>
               </tr>
               <tr>
-                <td> AMOUNT : </td>
+                <td> Amount : </td>
                 <td>
                   <input
                     type="number"
                     name="amount"
                     step="0.01"
-                    min='0'
-                    value={this.props.bufferDeposit.amount}
+                    min='0.01'
+                    max={this.props.walletBalance/100}
+                    value={this.props.bufferWithdraw.amount}
                     onChange={this.props.handleChange}
                     required
                   />
@@ -60,7 +62,7 @@ class WithdrawForm extends Component {
               </tr>
             </tbody>
           </table>
-          <input type="submit" value="Deposit"/>
+          <input type="submit" value="Withdraw"/>
         </form>
         {this.state.message}
       </div>

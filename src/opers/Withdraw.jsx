@@ -6,6 +6,7 @@ import WithdrawForm from '../forms/WithdrawForm.jsx'
 
 
 
+//// TODO: Blindage
 
 
 export const dispUserBalance = (user, balance) => (
@@ -42,12 +43,12 @@ class Withdraw extends Component {
       wallet,
       cards: myCards,
       hasInputedAmount: false,
-      bufferDeposit: {
+      bufferWithdraw: {
         RIB:'',
         amount:0,
       },
-      payin:{
-        id: getAvailableId('payins'),
+      payout:{
+        id: getAvailableId('payouts'),
         wallet_id: getWalletIdWhereUserId(user.id),
         amount: 0,
       },
@@ -59,7 +60,7 @@ class Withdraw extends Component {
     event.preventDefault();
     const target = event.target;
     this.setState({
-      bufferDeposit: Object.assign(this.state.bufferDeposit, {
+      bufferWithdraw: Object.assign(this.state.bufferWithdraw, {
         [target.name]: target.value,
       }),
     });
@@ -67,15 +68,13 @@ class Withdraw extends Component {
 
 
   transfering(){
-    addToBalance(this.state.payin.wallet_id, this.state.payin.amount);
-    addToDb('payins', this.state.payin);
+    addToBalance(this.state.payout.wallet_id, (-this.state.payout.amount));
+    addToDb('payouts', this.state.payout);
   }
 
   handleSubmit(event){
     event.preventDefault();
-    this.state.payin.amount = this.state.bufferDeposit.amount*100;
-    console.log(this.state.payin);
-    console.log(getAllFromDb('payins'));
+    this.state.payout.amount = this.state.bufferWithdraw.amount*100;
     this.transfering();
   }
 
@@ -88,7 +87,7 @@ class Withdraw extends Component {
         {dispUserBalance(this.state.iuser, this.state.wallet.balance)}
         <WithdrawForm
           userid={this.state.user.id}
-          bufferDeposit={this.state.bufferDeposit}
+          bufferWithdraw={this.state.bufferWithdraw}
           cards={this.state.cards}
           walletBalance={this.state.wallet.balance}
           handleSubmit={this.handleSubmit}

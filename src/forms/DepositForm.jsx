@@ -3,6 +3,7 @@ import {
   addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail
 } from '../Database/dbops';
 
+//// TODO: Blindage
 
 
 

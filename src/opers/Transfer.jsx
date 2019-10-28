@@ -18,6 +18,7 @@ export const dispUserBalance = (user, balance) => (
   </table>
 );
 
+//// TODO: Blindage
 
 class Transfer extends Component {
   constructor(props) {

@@ -4,6 +4,7 @@ import { addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, ge
 
 import DepositForm from '../forms/DepositForm.jsx'
 
+//// TODO: Blindage
 
 export const dispUserBalance = (user, balance) => (
   <table className="center">

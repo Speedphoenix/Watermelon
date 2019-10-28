@@ -3,6 +3,8 @@ import {
   getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getUserByEmail, getWalletIdWhereUserId
 } from '../Database/dbops';
 
+
+//// TODO: Blindage
 class TransferForm extends Component {
 
   constructor(props) {

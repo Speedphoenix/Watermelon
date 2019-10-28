@@ -15,7 +15,7 @@ const nameToList = {
   wallets,
 };
 
-function addToBalance(walletId, amount){
+function addToBalance(walletId, amount) {
   for (let i = 0; i < wallets.length; i += 1) {
     if (wallets[i].id === walletId) wallets[i].balance = wallets[i].balance + amount;
   }
@@ -89,7 +89,7 @@ function getFromDbWhere(wherename, condition) {
   return rep;
 }
 
-function getWalletIdWhereUserId( userid) {
+function getWalletIdWhereUserId(userid) {
   for (let i = 0; i < users.length; i += 1) {
     if (wallets[i].userid === userid) return wallets[i].id;
   }
@@ -125,5 +125,6 @@ export {
   getAvailableId,
   emailIsAvailable,
   getUserByEmail,
-  getWalletIdWhereUserId
+  getWalletIdWhereUserId,
+  getById,
 };

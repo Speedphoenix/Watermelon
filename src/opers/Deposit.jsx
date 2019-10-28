@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail } from '../Database/dbops';
+import {
+  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
+} from '../Database/dbops';
 
-import DepositForm from '../forms/DepositForm.jsx'
+import DepositForm from '../forms/DepositForm.jsx';
 
-//// TODO: Blindage
+// // TODO: Blindage
 
 export const dispUserBalance = (user, balance) => (
   <table className="center">
@@ -35,17 +37,16 @@ class Deposit extends Component {
     const myCards = getFromDbWhere('cards', (cards) => (cards.userid === userId));
 
 
-
     this.state = {
       user,
       wallet,
       cards: myCards,
-      hasInputedAmount: false,
+    //  hasInputedAmount: false,
       bufferDeposit: {
-        RIB:'',
-        amount:0,
+        RIB: '',
+        amount: 0,
       },
-      payin:{
+      payin: {
         id: getAvailableId('payins'),
         wallet_id: getWalletIdWhereUserId(user.id),
         amount: 0,
@@ -54,7 +55,7 @@ class Deposit extends Component {
   }
 
 
-  handleChange(event){
+  handleChange(event) {
     event.preventDefault();
     const target = event.target;
     this.setState({
@@ -65,20 +66,16 @@ class Deposit extends Component {
   }
 
 
-  transfering(){
+  transfering() {
     addToBalance(this.state.payin.wallet_id, this.state.payin.amount);
     addToDb('payins', this.state.payin);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
-    this.state.payin.amount = this.state.bufferDeposit.amount*100;
-    console.log(this.state.payin);
-    console.log(getAllFromDb('payins'));
+    this.state.payin.amount = this.state.bufferDeposit.amount * 100;
     this.transfering();
   }
-
-
 
 
   render() {

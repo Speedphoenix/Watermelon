@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail
+  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
 } from '../Database/dbops';
 import TransferForm from '../forms/TransferForm';
 
@@ -18,7 +18,7 @@ export const dispUserBalance = (user, balance) => (
   </table>
 );
 
-//// TODO: Blindage
+// // TODO: Blindage
 
 class Transfer extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class Transfer extends Component {
         amount: 0,
         emailcredited: '',
       },
-      transfer:{
+      transfer: {
         id: getAvailableId('transfers'),
         debited_wallet_id: userId,
         credited_wallet_id: userId,
@@ -50,15 +50,15 @@ class Transfer extends Component {
     };
   }
 
-  transfering(){
+  transfering() {
     addToBalance(this.state.transfer.credited_wallet_id, this.state.transfer.amount);
-    addToBalance(this.state.transfer.debited_wallet_id, (- this.state.transfer.amount) );
+    addToBalance(this.state.transfer.debited_wallet_id, (-this.state.transfer.amount));
     addToDb('transfers', this.state.transfer);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.state.transfer.amount = this.state.transferData.amount*100;
+    this.state.transfer.amount = this.state.transferData.amount * 100;
     this.state.transfer.debited_wallet_id = this.state.wallet.id;
     this.state.transfer.credited_wallet_id = getWalletIdWhereUserId(getUserByEmail(this.state.transferData.emailcredited));
     this.transfering();
@@ -72,9 +72,6 @@ class Transfer extends Component {
       }),
     });
   }
-
-
-
 
 
   render() {

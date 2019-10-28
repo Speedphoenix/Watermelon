@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail } from '../Database/dbops';
+import {
+  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
+} from '../Database/dbops';
 
-import WithdrawForm from '../forms/WithdrawForm.jsx'
+import WithdrawForm from '../forms/WithdrawForm';
 
 
-
-//// TODO: Blindage
+// // TODO: Blindage
 
 
 export const dispUserBalance = (user, balance) => (
@@ -37,17 +38,16 @@ class Withdraw extends Component {
     const myCards = getFromDbWhere('cards', (cards) => (cards.userid === userId));
 
 
-
     this.state = {
       user,
       wallet,
       cards: myCards,
       hasInputedAmount: false,
       bufferWithdraw: {
-        RIB:'',
-        amount:0,
+        RIB: '',
+        amount: 0,
       },
-      payout:{
+      payout: {
         id: getAvailableId('payouts'),
         wallet_id: getWalletIdWhereUserId(user.id),
         amount: 0,
@@ -56,7 +56,7 @@ class Withdraw extends Component {
   }
 
 
-  handleChange(event){
+  handleChange(event) {
     event.preventDefault();
     const target = event.target;
     this.setState({
@@ -67,18 +67,16 @@ class Withdraw extends Component {
   }
 
 
-  transfering(){
+  transfering() {
     addToBalance(this.state.payout.wallet_id, (-this.state.payout.amount));
     addToDb('payouts', this.state.payout);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
-    this.state.payout.amount = this.state.bufferWithdraw.amount*100;
+    this.state.payout.amount = this.state.bufferWithdraw.amount * 100;
     this.transfering();
   }
-
-
 
 
   render() {

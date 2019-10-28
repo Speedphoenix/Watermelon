@@ -1,36 +1,35 @@
 import React, { Component } from 'react';
 import {
-  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail
+  addToBalance, addToDb, getFromDb, updateInDb, getById, getAllFromDb, getFromDbWhere, getAvailableId, getWalletIdWhereUserId, getUserByEmail,
 } from '../Database/dbops';
 
-//// TODO: Blindage
-
+// // TODO: Blindage
 
 
 class DepositForm extends Component {
   constructor(props) {
-    super(props)
-    this.verify =this.verify.bind(this);
+    super(props);
+    this.verify = this.verify.bind(this);
     this.state = {
       message: '',
     };
   }
 
-  verify(event){
+  verify(event) {
     event.preventDefault();
 
     this.setState({
-          message:(
-            <h4 className="error-msg">
+      message: (
+        <h4 className="error-msg">
             Deposit made
-          </h4>),
+        </h4>),
     });
     this.props.handleSubmit(event);
   }
 
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <form onSubmit={this.verify}>
           <table className="center">
@@ -38,9 +37,10 @@ class DepositForm extends Component {
               <tr>
                 <td> CARD : </td>
                 <td>
-                  <select  name="card_select" >card
+                  <select name="card_select">
+card
                     {this.props.cards.map((val) => (
-                      <option key={'edit'+val.id} value={val.id}>{val.last_4}</option>
+                      <option key={'edit' + val.id} value={val.id}>{val.last_4}</option>
                     ))}
                   </select>
                 </td>
@@ -52,7 +52,7 @@ class DepositForm extends Component {
                     type="number"
                     name="amount"
                     step="0.01"
-                    min='0'
+                    min="0"
                     value={this.props.bufferDeposit.amount}
                     onChange={this.props.handleChange}
                     required
@@ -61,13 +61,11 @@ class DepositForm extends Component {
               </tr>
             </tbody>
           </table>
-          <input type="submit" value="Deposit"/>
+          <input type="submit" value="Deposit" />
         </form>
         {this.state.message}
       </div>
-    )
-
-
+    );
   }
 }
 

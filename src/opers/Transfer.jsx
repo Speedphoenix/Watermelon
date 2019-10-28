@@ -59,9 +59,18 @@ class Transfer extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.state.transfer.amount = this.state.transferData.amount * 100;
-    this.state.transfer.debited_wallet_id = this.state.wallet.id;
-    this.state.transfer.credited_wallet_id = getWalletIdWhereUserId(getUserByEmail(this.state.transferData.emailcredited));
+    this.setState((prevState) => ({
+      wallet: {
+        ...prevState.transfer,
+        balance: prevState.wallet.amount ,
+      },
+      transfer:{
+        ...prevState.transfer,
+        amount : prevState.transferData.amount * 100,
+        debited_wallet_id : prevState.wallet.id,
+        credited_wallet_id : getWalletIdWhereUserId(getUserByEmail(prevState.transferData.emailcredited)),
+      }
+    }));
     this.transfering();
   }
 

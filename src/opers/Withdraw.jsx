@@ -72,7 +72,16 @@ class Withdraw extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.state.payout.amount = this.state.bufferWithdraw.amount * 100;
+    this.setState((prevState) => ({
+      wallet: {
+        ...prevState.transfer,
+        balance: prevState.wallet.amount ,
+      },
+      payout:{
+        ...prevState.transfer,
+        amount : prevState.transferData.amount * 100,
+      }
+    }));
     this.transfering();
   }
 

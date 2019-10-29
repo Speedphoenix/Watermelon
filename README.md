@@ -1,3 +1,6 @@
+### Note that some bugs were fixed in a commit after midnight
+- For best results, use c11f71ea3f17af7c2d989add9d61c7749cb8809c (00:17)  
+- For aditional linting and prettiness, use face72b2cbf1097ae6100d26996884c1cc4f13d0 (00:33)
 # Anguria (Watermelon)
 This project was done by  
 - [Leonardo Jeanteur](https://github.com/Speedphoenix) (Speedphoenix)

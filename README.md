@@ -6,8 +6,6 @@ This project was done by
 - [Leonardo Jeanteur](https://github.com/Speedphoenix) (Speedphoenix)
 - [Daniel Marin](https://github.com/Danny-Matelot) (Danny-Matelot)
 
-# The GitHub repository (https://github.com/Speedphoenix/Watermelon/) was made public on 2019-11-15 00:51
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
